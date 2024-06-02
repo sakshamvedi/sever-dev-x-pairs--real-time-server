@@ -12,7 +12,7 @@ const io = require('socket.io')(server, {
 });
 let connectedUsers = {};
 
-const PORT = 3001;
+const PORT = 3002;
 
 io.on('connect', (socket) => {
     connectedUsers[socket.id] = socket;
@@ -41,6 +41,19 @@ io.on('connect', (socket) => {
             socket.emit('matchInvalid', { message: 'User is not live or code is not correct' });
         }
     });
+
+
+    socket.on('userDetails', (obj) => {
+        connectedUsers[socket.id] = obj;
+        var data = connectedUsers[socket.id];
+        console.log(connectedUsers[socket.id]);
+        socket.emit('OppenentuserDetails', connectedUsers);
+    });
+
+    socket.on('userJoined', ({ opponentCode }) => {
+        io.to(opponentCode).emit('request', "I am joined.");
+    });
+
 });
 
 server.listen(PORT, () => {
