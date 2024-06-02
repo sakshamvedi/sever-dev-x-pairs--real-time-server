@@ -12,7 +12,7 @@ const io = require('socket.io')(server, {
 });
 let connectedUsers = {};
 
-const PORT = 3002;
+const PORT = 3001;
 
 io.on('connect', (socket) => {
     connectedUsers[socket.id] = socket;
